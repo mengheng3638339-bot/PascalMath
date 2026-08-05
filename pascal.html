@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pascal's Triangle</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230f172a' rx='16'/%3E%3Ctext x='50' y='50' font-size='34' fill='%2300ff7f' text-anchor='middle' dominant-baseline='central' font-family='Courier New, monospace' font-weight='bold'%3E1%3C/text%3E%3Ctext x='30' y='75' font-size='24' fill='%2338bdf8' text-anchor='middle' dominant-baseline='central' font-family='Courier New, monospace'%3E1%3C/text%3E%3Ctext x='70' y='75' font-size='24' fill='%2338bdf8' text-anchor='middle' dominant-baseline='central' font-family='Courier New, monospace'%3E1%3C/text%3E%3C/svg%3E">
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffffff;
+        color: #334155;
+        text-align: center;
+        padding: 40px 10px;
+        margin: 0;
+    }
+    h1 {
+        color: #334155;
+    }
+    .khmer {
+        max-width: 700px;
+        margin: 0 auto 20px auto;
+        color: #475569;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    .rows-label {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    form {
+        margin-bottom: 30px;
+    }
+    input[type=number] {
+        padding: 10px;
+        font-size: 16px;
+        width: 140px;
+        border-radius: 10px;
+        border: 2px solid #0f172a;
+        background: #0f172a;
+        color: #ffffff;
+        text-align: center;
+    }
+    button {
+        padding: 10px 24px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: none;
+        background: #0f172a;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer;
+        margin-left: 8px;
+    }
+    button:hover {
+        background: #1e293b;
+    }
+    .terminal {
+        max-width: 800px;
+        margin: 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .terminal-header {
+        background: #6b7280;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+    .dot.red { background: #ef4444; }
+    .dot.yellow { background: #eab308; }
+    .dot.green { background: #22c55e; }
+    .terminal-title {
+        color: #ffffff;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    .terminal-body {
+        background: #000000;
+        min-height: 300px;
+        max-height: 500px;
+        padding: 20px;
+        overflow: auto;
+        touch-action: pan-x pan-y;
+        position: relative;
+    }
+    pre {
+        color: #00ff7f;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        text-align: center;
+        margin: 0;
+        display: inline-block;
+        transform-origin: top center;
+        transition: transform 0.15s ease;
+    }
+    .zoom-controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .zoom-controls button {
+        padding: 6px 14px;
+        font-size: 16px;
+        margin-left: 0;
+    }
+    .error {
+        color: #f87171;
+        font-family: "Courier New", monospace;
+    }
+    footer {
+        margin-top: 30px;
+        color: #64748b;
+        font-weight: bold;
+    }
+    .info-terminal {
+        max-width: 800px;
+        margin: 40px auto 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .info-header {
+        background: #6b7280;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .info-title {
+        color: #ffffff;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    .info-body {
+        background: #000000;
+        color: #ffffff;
+        padding: 25px 20px;
+    }
+    .info-body p {
+        max-width: 700px;
+        margin: 0 auto 20px auto;
+        line-height: 1.7;
+        font-size: 16px;
+    }
+    .facts-card {
+        background: #ffffff;
+        color: #1e293b;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 700px;
+        margin: 0 auto 20px auto;
+        text-align: left;
+    }
+    .facts-card h3 {
+        color: #b91c1c;
+        text-align: center;
+        margin-top: 0;
+    }
+    .facts-card ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+    .facts-card li {
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+    .facts-card .formula-col {
+        color: #1d4ed8;
+        font-style: italic;
+    }
+    .note-box {
+        background: #ffffff;
+        border: 2px solid #ef4444;
+        border-radius: 8px;
+        padding: 15px;
+        max-width: 700px;
+        margin: 0 auto;
+        color: #1e293b;
+        text-align: left;
+    }
+    .note-box .label {
+        color: #7c3aed;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    .formula-card {
+        background: #ffffff;
+        color: #1e293b;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 700px;
+        margin: 0 auto 20px auto;
+        text-align: left;
+    }
+    .formula-card .math {
+        font-style: italic;
+        font-size: 18px;
+        color: #1e293b;
+    }
+    .fraction {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+        margin: 0 6px;
+    }
+    .fraction .numerator {
+        padding: 0 4px 2px 4px;
+    }
+    .fraction .denominator {
+        padding: 2px 4px 0 4px;
+        border-top: 2px solid #1e293b;
+    }
+    .rows-list {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0 0 0;
+    }
+    .rows-list li {
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+    .rows-list .row-label {
+        font-weight: bold;
+    }
+    .rows-list .row-numbers {
+        font-family: "Courier New", monospace;
+    }
+</style>
+</head>
+<body>
+    <h1>Pascal's Triangle</h1>
+    <p class="khmer">
+       <p style="font-weight: bold;">ត្រីកោណប៉ាស្កាល់</p>
+    </p>
+    <p class="rows-label">មេគុណពី១ដល់៣០</p>
+    <p class="rows-label">Multiplier from 1 to 30</p>
+    <form id="pascalForm">
+        <input type="number" id="rows" min="1" max="30" value="5">
+        <button type="submit">Generate</button>
+    </form>
+
+    <div class="terminal">
+        <div class="terminal-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="terminal-title">OUTPUT</span>
+        </div>
+        <div class="terminal-body" id="output"></div>
+    </div>
+
+    <div class="zoom-controls">
+        <button id="zoomOut" type="button">&minus;</button>
+        <button id="zoomReset" type="button">Reset</button>
+        <button id="zoomIn" type="button">&plus;</button>
+    </div>
+
+    <div class="info-terminal">
+        <div class="info-header">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <span class="info-title">In general ជាទូទៅ</span>
+        </div>
+        <div class="info-body">
+            <p>
+                ត្រីកោណប៉ាស្កាល់ គឺជាលំនាំត្រីកោណនៃមេគុណដែលបង្កើតឡើងដោយផលបូកនៃចំនួនពីរនៅពីលើវា
+                ដោយចាប់ផ្តើមពីមេគុណលេខ ១ នៅកំពូល ហើយបន្តពង្រីកគ្មានដែនកំណត់ចុះក្រោម។
+            </p>
+
+            <div class="facts-card">
+                <h3>របៀបចងចាំសមភាពសំខាន់ៗតាមត្រីកោណប៉ាស្កាល់</h3>
+                <p style="margin-bottom:10px; font-weight:bold;">រូបមន្តសង្ខេប៖</p>
+                <ul>
+                    <li class="formula-col">(a + b)&sup2; = a&sup2; + 2ab + b&sup2;</li>
+                    <li class="formula-col">(a &minus; b)&sup2; = a&sup2; &minus; 2ab + b&sup2;</li>
+                    <li class="formula-col">a&sup2; &minus; b&sup2; = (a + b)(a &minus; b)</li>
+                    <li class="formula-col">(a + b)&sup3; = a&sup3; + 3a&sup2;b + 3ab&sup2; + b&sup3;</li>
+                    <li class="formula-col">(a &minus; b)&sup3; = a&sup3; &minus; 3a&sup2;b + 3ab&sup2; &minus; b&sup3;</li>
+                    <li class="formula-col">(a + b)&#8308; = a&#8308; + 4a&sup3;b + 6a&sup2;b&sup2; + 4ab&sup3; + b&#8308;</li>
+                    <li class="formula-col">(a &minus; b)&#8308; = a&#8308; &minus; 4a&sup3;b + 6a&sup2;b&sup2; &minus; 4ab&sup3; + b&#8308;</li>
+                    <li class="formula-col">a&sup3; + b&sup3; = (a + b)(a&sup2; &minus; ab + b&sup2;)</li>
+                    <li class="formula-col">a&sup3; &minus; b&sup3; = (a &minus; b)(a&sup2; + ab + b&sup2;)</li>
+                </ul>
+            </div>
+
+            <div class="facts-card">
+                <h3>លក្ខណៈបន្ថែមរបស់ត្រីកោណប៉ាស្កាល់</h3>
+                <ul>
+                    <li>ផលបូកនៃលេខនីមួយៗក្នុងជួរដេកទី n (ចាប់ពី 0)ស្មើនឹង 2&#8319; ។</li>
+                    <li>ចំនួននីមួយៗគឺជាមេគុណបន្សំ &nbsp;<span class="formula-col">C(n, k)</span>&nbsp; ក្នុងការពង្រីក (a + b)&#8319;។</li>
+                    <li>ត្រីកោណមានលក្ខណៈស៊ីមេទ្រី &mdash; ចំហៀងឆ្វេង និងស្តាំដូចគ្នា។</li>
+                    <li>ជួរអង្កត់ (diagonal) ទីពីរ បង្ហាញពីលេខធម្មជាតិ ១, ២, ៣, ៤...</li>
+                    <li>ជួរអង្កត់ទីបី បង្ហាញពីលេខត្រីកោណ (triangular numbers) ១, ៣, ៦, ១០...</li>
+                    <li>ផលបូកតាមអង្កត់ទ្រូង (diagonal sums) ផ្តល់ជាលំដាប់ហ្វីបូណាជី (Fibonacci sequence)។</li>
+                </ul>
+            </div>
+
+            <div class="formula-card">
+                <p>
+                    វាល់ជួរនីមួយៗ (ជួរទី n) ចាប់ផ្តើម និងបញ្ចប់ដោយលេខ ១ជានិច្ច
+                    ហើយមេគុណនីមួយៗនៅក្នុងត្រីកោណត្រូវបានគណនាដោយរូបមន្តបន្ថែម៖
+                </p>
+                <p class="math" style="text-align:center;">
+                    C(n, k) = <span class="fraction">
+                        <span class="numerator">n!</span>
+                        <span class="denominator">k!(n&minus;k)!</span>
+                    </span>
+                </p>
+
+                <p style="font-weight:bold; margin-top:20px;">
+                    រចនាសម្ព័ន្ធមេគុណមានទម្រង់ដូចខាងក្រោម៖
+                </p>
+                <ul class="rows-list">
+                    <li><span class="row-label">ជួរទី 0 (n=0):</span> <span class="row-numbers">1</span></li>
+                    <li><span class="row-label">ជួរទី ១ (n=1):</span> <span class="row-numbers">1&nbsp;&nbsp;1</span></li>
+                    <li><span class="row-label">ជួរទី ២ (n=2):</span> <span class="row-numbers">1&nbsp;&nbsp;2&nbsp;&nbsp;1</span></li>
+                    <li><span class="row-label">ជួរទី ៣ (n=3):</span> <span class="row-numbers">1&nbsp;&nbsp;3&nbsp;&nbsp;3&nbsp;&nbsp;1</span></li>
+                    <li><span class="row-label">ជួរទី ៤ (n=4):</span> <span class="row-numbers">1&nbsp;&nbsp;4&nbsp;&nbsp;6&nbsp;&nbsp;4&nbsp;&nbsp;1</span></li>
+                    <li><span class="row-label">ជួរទី ៥ (n=5):</span> <span class="row-numbers">1&nbsp;&nbsp;5&nbsp;&nbsp;10&nbsp;&nbsp;10&nbsp;&nbsp;5&nbsp;&nbsp;1</span></li>
+                </ul>
+            </div>
+
+            <div class="note-box">
+                <span class="label">សម្គាល់៖</span>
+                គេប្រើត្រីកោណប៉ាស្កាល់ដើម្បីងាយស្រួលក្នុងចងចាំមេគុណទ្វេធា ដូចជា
+                <span class="formula-col">(a + b)&#8319;</span>, <span class="formula-col">(a &minus; b)&#8319;</span> ។
+           
+     
+         
+            </div>
+        </div>
+    </div>
+
+    <footer>&copy; Bun MengHeng &mdash; All rights reserved</footer>
+
+    <script>
+        function combination(n, k) {
+            if (k < 0 || k > n) return 0n;
+            k = Math.min(k, n - k);
+            let result = 1n;
+            for (let i = 0; i < k; i++) {
+                result = result * BigInt(n - i) / BigInt(i + 1);
+            }
+            return result;
+        }
+
+        function buildPascalTriangle(rows) {
+            const lines = [];
+            for (let i = 0; i < rows; i++) {
+                const row = [];
+                for (let k = 0; k <= i; k++) {
+                    row.push(combination(i, k).toString());
+                }
+                lines.push(row.join(" "));
+            }
+            const maxWidth = lines.length ? lines[lines.length - 1].length : 0;
+            const centered = lines.map(line => {
+                const totalPad = maxWidth - line.length;
+                const left = Math.floor(totalPad / 2);
+                const right = totalPad - left;
+                return " ".repeat(left) + line + " ".repeat(right);
+            });
+            return centered.join("\n");
+        }
+
+        const form = document.getElementById("pascalForm");
+        const output = document.getElementById("output");
+        let scale = 1;
+
+        function applyScale() {
+            const pre = output.querySelector("pre");
+            if (pre) {
+                pre.style.transform = `scale(${scale})`;
+            }
+        }
+
+        document.getElementById("zoomIn").addEventListener("click", function () {
+            scale = Math.min(scale + 0.2, 4);
+            applyScale();
+        });
+
+        document.getElementById("zoomOut").addEventListener("click", function () {
+            scale = Math.max(scale - 0.2, 0.4);
+            applyScale();
+        });
+
+        document.getElementById("zoomReset").addEventListener("click", function () {
+            scale = 1;
+            applyScale();
+        });
+
+        // Two-finger pinch-to-zoom directly on the terminal box
+        const terminalBody = document.getElementById("output");
+        let initialPinchDistance = null;
+        let pinchStartScale = 1;
+
+        function getDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        terminalBody.addEventListener("touchstart", function (e) {
+            if (e.touches.length === 2) {
+                initialPinchDistance = getDistance(e.touches);
+                pinchStartScale = scale;
+            }
+        }, { passive: true });
+
+        terminalBody.addEventListener("touchmove", function (e) {
+            if (e.touches.length === 2 && initialPinchDistance) {
+                e.preventDefault();
+                const newDistance = getDistance(e.touches);
+                const ratio = newDistance / initialPinchDistance;
+                scale = Math.min(Math.max(pinchStartScale * ratio, 0.4), 4);
+                applyScale();
+            }
+        }, { passive: false });
+
+        terminalBody.addEventListener("touchend", function (e) {
+            if (e.touches.length < 2) {
+                initialPinchDistance = null;
+            }
+        }, { passive: true });
+
+        function render() {
+            const rowsInput = document.getElementById("rows");
+            const rows = parseInt(rowsInput.value, 10);
+
+            output.innerHTML = "";
+            scale = 1;
+
+            if (isNaN(rows)) {
+                output.innerHTML = '<p class="error">Please enter a valid whole number.</p>';
+                return;
+            }
+            if (rows <= 0) {
+                output.innerHTML = '<p class="error">Number must be greater than 0.</p>';
+                return;
+            }
+            if (rows > 30) {
+                output.innerHTML = '<p class="error">Please choose 30 or fewer rows for readable output.</p>';
+                return;
+            }
+
+            const triangle = buildPascalTriangle(rows);
+            const pre = document.createElement("pre");
+            pre.textContent = triangle;
+            output.appendChild(pre);
+            applyScale();
+        }
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            render();
+        });
+
+        render();
+    </script>
+</body>
+</html>
+
